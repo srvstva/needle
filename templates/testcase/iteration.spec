@@ -4,3 +4,5 @@
 #  Note: Do not use blank line and spaces. Comments are allowed                                      #
 #----------------------------------------------------------------------------------------------------#
 $K_TNAME|$K_NUM_USERS|$K_RAMP_UP_TIME|$K_DURATION|$K_RAMP_DOWN_TIME|$K_SCRIPT|$K_SVR_HOST|$K_RR_MODE|$K_REPORTING|$K_SESSION_PACING|$K_O_THINK_TIME|$K_THINK_TIME|$K_NEW_USER|$K_TRACING|$K_HIERARICHAL_VIEW
+
+#END_ITERATION

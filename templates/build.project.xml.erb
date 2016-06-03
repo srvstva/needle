@@ -6,7 +6,7 @@
   <property name="ns.wdir" value="/home/netstorm/work"/>
   <property name="lib.dir" value="${basedir}/lib"/>
   <property name="include.dir" value="${basedir}/include"/>  
-  <property name="results.dir" value="/home/automation/workspace/results"/>
+  <property name="results.dir" value="/home/<%=(ENV['USER'])%>/workspace/results"/>
   <property name="project.name" value="<%= @project%>"/> 
   <property name="script.gen.report" value="${basedir}/bin/generate_report.py"/>
   <property name="script.db.upload" value="${basedir}/bin/suite_db_uploader.py"/>

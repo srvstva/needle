@@ -49,5 +49,15 @@ module Needle
 			@name = name
 			Needle::Scenario.new(name, self).run
 		end
+
+		desc(
+			"iteration [NAME][TESTCASE]", 
+			"Adds the specified testcase to the iteration.spec file\n" + 
+			"This command should be run from inside the project directory"
+		)
+		def iteration(name, testcase)
+			require "needle/helpers/iteration"
+			Needle::Iteration.new(name, testcase, self).run
+		end
 	end
 end
