@@ -4,7 +4,8 @@ module Needle
 	class Generator < Actions 
 		desc("project [name]", "Generates a new project")
 		def project(name)
-			say("Creating new project #{name}", :green)
+			require "needle/helpers/project"
+			Needle::Project.new(name, self).run
 		end
 	end
 end

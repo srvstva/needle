@@ -6,7 +6,12 @@ module Needle
 
 		desc("new [project]", "Creates a new automation project")
 		def new(project)
-			say("Creating new #{project}")
+			require "needle/helpers/kickstart"
+			# Setting instance variable for thor here
+			# It is not the right place, just tesing out
+			# for now
+			@project = project
+			Needle::Kickstart.new(project, self).run
 		end
 
 		register(

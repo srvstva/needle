@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<project name="<%= @project%>" basedir=".">
+  <description>
+    <%= @project.capitalize%> automation suite
+  </description>
+  <!--Property definition here-->
+    <property name="project.name" value="<%= @project%>"/> 
+  <!--End property definition-->
+ 
+  <!--Target definition-->
+  <target name="default">
+    <echo message="Running default target"/>
+    <!--Customize this part of the code
+    Add edit your own targets here-->
+    <!--
+      <ant description="Runs smoke automation suite"
+          antfile="smoke/build.xml" 
+          useNativeBasedir="true" 
+          target="default"
+      />
+    -->
+  </target>
+  <!--End target definition-->
+</project>
