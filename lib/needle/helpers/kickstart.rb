@@ -11,11 +11,15 @@ module Needle
 		def run
 			thor.say("Creating new automation project #{name} ...", :green)
 			thor.empty_directory(name)
-			copy_templates
+			apply_templates
+		end
+
+		def remove
+			thor.remove_dir(name)
 		end
 
 		private 
-			def copy_templates
+			def apply_templates
 				thor.template(
 					"templates/build.project.xml.erb", 
 					"#{name}/build.xml"
@@ -27,6 +31,10 @@ module Needle
 				thor.directory(
 					"templates/bin", 
 					"#{name}/bin"
+				)
+				thor.directory(
+					"templates/include",
+					"#{name}/include"
 				)
 			end
 	end
