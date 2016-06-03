@@ -33,5 +33,21 @@ module Needle
 			require "needle/helpers/testsuite"
 			Needle::Testsuite.new(name, self).run
 		end
+
+		desc(
+			"scenario [name]", 
+			"Generates a new scenario\n" + 
+			"Adds the scenario information to testcase.conf if any testcase exists with same scenariosc\n" +
+			"This command should be run from inside the project directory"
+		)
+		def scenario(name)
+			require "needle/helpers/scenario"
+			# Project name is the name of the parent directory 
+			# we are working in. 
+			# The automation base directory
+			@project_name = File.basename(Dir.pwd)
+			@name = name
+			Needle::Scenario.new(name, self).run
+		end
 	end
 end

@@ -12,6 +12,7 @@ module Needle
 			thor.say("Creating new automation project #{name} ...", :green)
 			thor.empty_directory(name)
 			apply_templates
+			init_git
 		end
 
 		def remove
@@ -36,6 +37,29 @@ module Needle
 					"templates/include",
 					"#{name}/include"
 				)
+			end
+
+			def init_git
+				unless git_available?
+					thor.say("[NOTICE]", :yellow)
+					puts("Looks like git is not available in your system")
+					puts("It is recommended to install git for version controlling your project")
+					puts("To install run command 'apt-get install git' with root access")
+					return
+				end
+				Dir.chdir(name) do ||
+					`git init`
+					`git add .`
+					thor.say("Intialized git repo in #{File.absolute_path('.')}")
+				end
+			end
+
+			def git_available?
+				output = `which git`
+				# If command rest
+				return false if output.empty?
+				output.chomp!
+				return File.exist?(output)
 			end
 	end
 end

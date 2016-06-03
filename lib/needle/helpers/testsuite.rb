@@ -10,8 +10,8 @@ module Needle
 
 		def run
 			testcases = Array.new
-			if File.directory?("#{name}")
-				testcases = Dir.entries("testcase").reject do |f|
+			if File.directory?("testcases")
+				testcases = Dir.entries("testcases").reject do |f|
 					# Reject symlinks to directories
 					# starting with '.' and '..'
 					f.start_with?(".", "..")
@@ -20,6 +20,10 @@ module Needle
 				testcases.sort!
 			end
 			thor.create_file("testsuites/#{name}.conf")
+			thor.say(
+				"      Added #{testcases.length} testcases to #{name}.conf",
+				:white
+			)
 			testcases.each do |testcase|
 				thor.append_to_file(
 					"testsuites/#{name}.conf",
