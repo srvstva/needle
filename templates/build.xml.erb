@@ -119,7 +119,9 @@
 		<echo message="Loading properties from ${automation.mailing.dir}/mail.properties"/>
 		<property file="${automation.mailing.dir}/mail.properties"/>
 		<mail mailhost="${mail.host}"
-			mailport="${mail.port}"
+			mailport="${mail.port}",
+			user="${mail.user}"
+			password="${mail.password}"
 			tolist="${mail.to.list}"
 			cclist="${mail.cc.list}"
 			messageMimeType="text/html"
