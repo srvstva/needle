@@ -1,13 +1,23 @@
 <?xml version="1.0"?>
 <project name="<%= @project%>" basedir=".">
-  <description>
-    <%= @project.capitalize%> automation suite
-  </description>
+  <description><%= @project.capitalize%> automation suite</description>
   <!--Property definition here-->
-    <property name="project.name" value="<%= @project%>"/> 
+  <property name="bash" value="/bin/bash"/>
+  <property name="ns.wdir" value="/home/netstorm/work"/>
+  <property name="lib.dir" value="${basedir}/lib"/>
+  <property name="include.dir" value="${basedir}/include"/>  
+  <property name="results.dir" value="/home/automation/workspace/results"/>
+  <property name="project.name" value="<%= @project%>"/> 
+  <property name="script.gen.report" value="${basedir}/bin/generate_report.py"/>
+  <property name="script.db.upload" value="${basedir}/bin/suite_db_uploader.py"/>
+  <property name="script.suite.runner" value="${basedir}/bin/suite_runner.sh"/>
+  <property name="script.get.latest.file" value="${basedir}/bin/get_latest_file.rb"/>
+  <property name="automation.mail.dir" value="${basedir}/include"/>
+    <!--skel-->
   <!--End property definition-->
  
   <!--Target definition-->
+<!--New targets to come-->
   <target name="default">
     <echo message="Running default target"/>
     <!--Customize this part of the code
@@ -19,6 +29,17 @@
           target="default"
       />
     -->
+  </target>
+  <target name="get-build-info" description="Get release and build information">
+    <exec executable="bash" outputproperty="release.info">
+      <arg value="-c"/>
+      <arg value="cat ${ns.wdir}/etc/version|head -1|awk '{print $2}'"/>
+    </exec>
+    <exec executable="bash" outputproperty="build.info">
+      <arg value="-c"/>
+      <arg value="cat ${ns.wdir}/etc/version|tail -1|awk '{print $2}'"/>
+    </exec>
+    <echo message="Current Build: R${release.info}.B${build.info}"/>
   </target>
   <!--End target definition-->
 </project>

@@ -4,7 +4,7 @@ require "needle/generator"
 module Needle
 	class CLI < Actions
 
-		desc("new [project]", "Creates a new automation project")
+		desc("new [PROJECT]", "Creates a new automation project")
 		def new(project)
 			require "needle/helpers/kickstart"
 			# Setting instance variable for thor here
@@ -17,7 +17,7 @@ module Needle
 			Needle::Kickstart.new(project, self).run
 		end
 
-		desc("destroy [project]", "Destroys the given project")
+		desc("destroy [PROJECT]", "Destroys the given project")
 		def destroy(project)
 			# This removes the project and empties the directories
 			# No templating is required here

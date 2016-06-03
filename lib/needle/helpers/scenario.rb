@@ -1,5 +1,5 @@
 module Needle
-	class Project
+	class Scenario
 		attr_reader :name
 		attr_reader :thor
 
@@ -10,7 +10,7 @@ module Needle
 
 		def run
 			thor.template(
-					"templates/scenarion.conf.erb", 
+					"templates/scenario/scenario.conf.erb", 
 					"scenarios/#{name}.conf"
 			)
 			# If there is no directory matching
@@ -21,13 +21,11 @@ module Needle
 			# We are also overriding the existing file
 			return unless File.directory?("testcases/#{name}")
 			
-			thor.create_file(
-				"testcases/#{name}/testcase.conf", 
-				"SCENARIO_NAME automation/#{project_name}/#{name}\n" +
-				"DESCRIPTION Scenario for #{project_name} and #{name}\n",
-				:force => true
+			thor.template(
+				"templates/testcase/testcase.conf",
+				"testcases/#{name}/testcase.conf"
+				#:force => true
 			)
-			end
 		end
 	end
 end

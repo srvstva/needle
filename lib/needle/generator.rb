@@ -2,7 +2,7 @@ require "needle/actions"
 
 module Needle
 	class Generator < Actions 
-		desc("project [name]", "Generates a new project")
+		desc("project [NAME]", "Generates a new project")
 		def project(name)
 			require "needle/helpers/project"
 			@project_name = name
@@ -10,7 +10,7 @@ module Needle
 		end
 
 		desc(
-			"testcase [name]", 
+			"testcase [NAME]", 
 			"Generates a new testcase. \n" +
 			"This command should be run from inside the project directory"
 		)
@@ -24,7 +24,7 @@ module Needle
 		end
 
 		desc(
-			"testsuite [name]", 
+			"testsuite [NAME]", 
 			"Generates a new testsuite\n" + 
 			"All existing testcases are appened to the suite\n" +
 			"This command should be run from inside the project directory"
@@ -35,9 +35,9 @@ module Needle
 		end
 
 		desc(
-			"scenario [name]", 
+			"scenario [NAME]", 
 			"Generates a new scenario\n" + 
-			"Adds the scenario information to testcase.conf if any testcase exists with same scenariosc\n" +
+			"Adds the scenario information to testcase.conf if any testcase exists with same scenarios\n" +
 			"This command should be run from inside the project directory"
 		)
 		def scenario(name)

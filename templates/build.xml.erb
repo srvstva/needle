@@ -1,9 +1,157 @@
 <?xml version="1.0"?>
 <project name="<%= @project_name%>" default="default">
-  <description>
-    <%= @project_name.capitalize%> automation suite
-  </description>
+  <description><%= @project_name.capitalize%> automation suite</description>
+  <property name="<%= @project_name%>.project" value="automation"/>
+  <property name="<%= @project_name%>.subproject" value="<%= @project_name%>"/>
+	<property name="scripts.dir" value="${ns.wdir}/scripts/${<%= @project_name%>.project}/${<%= @project_name%>.subproject}"/> 
+  <property name="scenarios.dir" value="${ns.wdir}/scenarios/${<%= @project_name%>.project}/${<%= @project_name%>.subproject}"/> 
+  <property name="testsuites.dir" value="${ns.wdir}/testsuites/${<%= @project_name%>.project}/${<%= @project_name%>.subproject}"/> 
+  <property name="testcases.dir" value="${ns.wdir}/testcases/${<%= @project_name%>.project}/${<%= @project_name%>.subproject}"/> 
+	<property name="topology.dir" value="${ns.wdir}/topology/${<%= @project_name%>.subproject}"/>
+
+	<!--target definition-->
+  <target name="clean">
+    <delete dir="${scripts.dir}"/>
+    <delete dir="${scenarios.dir}"/>
+    <delete dir="${topology.dir}"/>
+    <delete dir="${testsuites.dir}"/>
+    <delete dir="${testcases.dir}"/>
+    <delete dir="${ns.wdir}/lib"/>
+  </target>
+
+	<target name="create-workbench">
+		<mkdir dir="${scripts.dir}"/>
+		<mkdir dir="${scenarios.dir}"/>
+		<mkdir dir="${topology.dir}"/>
+		<mkdir dir="${testsuites.dir}"/>
+		<mkdir dir="${testcases.dir}"/>
+		<mkdir dir="${ns.wdir}/lib"/>
+	</target>
+
+
+	<target name="copy-workbench-files" depends="create-workbench">
+		<copy todir="${scripts.dir}">
+   		<fileset dir="scripts"/>
+   	</copy>
+		<copy todir="${scenarios.dir}">
+			<fileset dir="scenarios"/>
+		</copy>
+		<copy todir="${topology.dir}">
+			<fileset dir="topology"/>
+		</copy>
+		<copy todir="${testsuites.dir}">
+			<fileset dir="testsuites"/>
+		</copy>
+		<copy todir="${testcases.dir}">
+			<fileset dir="testcases"/>
+		</copy>
+		<copy todir="${ns.wdir}/lib">
+			<fileset dir="${lib.dir}"/>
+		</copy>
+		<copy todir="${instrprof.dir}">
+			<fileset dir="instrprof"/>
+		</copy>
+
+	<chmod perm="775">
+		<fileset dir="${testcases.dir}">
+		  <include name="**/*_test_*"/>
+		  <include name="**/check_status"/>
+		</fileset>
+		<dirset dir="${scripts.dir}">
+		  <include name="**/*"/>
+		</dirset>
+		<dirset dir="${scenarios.dir}">
+		  <include name="**/*"/>
+		</dirset>
+		<dirset dir="${testcases.dir}">
+		  <include name="**/*"/>
+		</dirset>
+		<dirset dir="${testsuites.dir}">
+		  <include name="**/*"/>
+		</dirset>
+		<dirset dir="${topology.dir}">
+		  <include name="**/*"/>
+		</dirset>
+		<dirset dir="${ns.wdir}/lib">
+		  <include name="**/*"/>
+		</dirset>
+	</chmod>
+
+   <chmod file="${scripts.dir}" perm="775" type="both"/>
+   <chmod file="${scenarios.dir}" perm="775" type="both"/>
+   <chmod file="${testcases.dir}" perm="775" type="both"/>
+   <chmod file="${testsuites.dir}" perm="775" type="both"/>
+   <chmod file="${topology.dir}" perm="775" type="both"/>
+   <chmod file="${ns.wdir}/lib" perm="775" type="both"/>
+  </target>
+  
+
   <target name="default">
     <echo message="Running default target"/>
   </target>
+
+	<target name="run-<%= @project_name%>" depends="clean, copy-workbench-files, calc-start-time">
+		<echo message="Running ..."/>
+		<exec executable="${bash}" failonerror="false">
+			<arg value="${script.suite.runner}"/>
+			<arg value="${<%= @project_name%>.project}/${<%= @project_name%>.subproject}/<%= @project_name%>"/>
+		</exec>
+	</target>
+	<target name="<%= @project_name%>" depends="run-<%= @project_name%>, gen-reports"/>
+	<target name="calc-start-time">
+		<exec executable="${bash}" outputproperty="automation.start.time">
+			<arg value="-c"/>
+			<arg value="date +'%D %r'"/>
+		</exec>
+	<echo message="Test started at: ${automation.start.time}"/>
+	</target>
+
+	<target name="calc-end-time">
+		<exec executable="${bash}" outputproperty="automation.end.time">
+			<arg value="-c"/>
+			<arg value="date +'%D %r'"/>
+		</exec>
+		<echo message="Test ended at: ${automation.end.time}"/>
+	</target>
+
+	<target name="gen-reports" depends="calc-start-time, calc-end-time, update-email-config">
+		<echo message="Loading properties from ${automation.mailing.dir}/mail.properties"/>
+		<property file="${automation.mailing.dir}/mail.properties"/>
+		<mail mailhost="${mail.host}"
+			mailport="${mail.port}"
+			tolist="${mail.to.list}"
+			cclist="${mail.cc.list}"
+			messageMimeType="text/html"
+			subject="<%= @project_name.upcase%> results for R${release.info}.B${build.info}"
+			messagefile="${automation.mailing.dir}/<%=@project_name.downcase%>.mail.body.html">
+			<from address="automation@cavisson.com"/>
+		</mail>
+	</target>
+	<target name="update-email-config" description="Updates email configurations post test">
+		<sleep seconds="1"/>
+		<exec executable="${script.get.latest.file}" outputproperty="<%=@project_name%>.result.file" failonerror="true">
+			<arg value="-d"/>
+			<arg value="${results.dir}/${release.info}/${build.info}"/>
+			<arg value="-p"/>
+			<arg value="*.txt"/>
+		</exec>
+		<echo message="Result file is: ${<%=@project_name%>.result.file}"/>
+		<exec executable="${nd.report.script}" failonerror="true">
+			<arg value="-f"/>
+			<arg value="${<%=@project_name%>.result.file}"/>
+			<arg value="-c"/>
+			<arg value="<%=@project_name.capitalize%>"/>
+			<arg value="-r"/>
+			<arg value="${release.info}"/>
+			<arg value="-v"/>
+			<arg value="${build.info}"/>
+			<arg value="-o"/>
+			<arg value="${automation.mailing.dir}/<%=@project_name.downcase%>.mail.body.html"/>
+			<arg value="-s"/>
+			<arg value="${automation.start.time}"/>
+			<arg value="-e"/>
+			<arg value="${automation.end.time}"/>
+		</exec>
+		<echo message="HTML content written to ${automation.mailing.dir}/<%=@project_name.downcase%>.mail.body.html"/>
+	</target>
 </project>
