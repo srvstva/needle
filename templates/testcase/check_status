@@ -1,2 +1,44 @@
 #!/usr/bin/env bash
+source $NS_WDIR/lib/utilities.sh
+source $NS_WDIR/lib/helpers.
+source $NS_WDIR/lib/<%=@project_name%>.properties
 
+PATH_TO_TEST_RUN="$NS_WDIR/logs/TR$(get_test_idx)"
+PARTITION_PATH="${PATH_TO_TEST_RUN}/$(get_test_partition)"
+PROGRESS_REPORT_FILE="${PATH_TO_TEST_RUN}/progress.report"
+SUMMARY_GDF_FILE="${PATH_TO_TEST_RUN}/summary_gdf.data"
+EVENT_LOG_FILE="${PARTITION_PATH}/event.log"
+MONITOR_LOG_FILE="${PARTITION_PATH}/monitor.log"
+
+# Entry point to check status
+# Add cases to handle your validation
+function main() {
+	case $(get_test_name) in
+		*) handle_unknown_case ;;
+		?) handle_unknown_case ;;
+	esac
+}
+
+# Helper function to log status
+# Sets additional product id and
+# category id
+function log_status_int() {
+	local _status="$1"
+	local why="$2"
+	# Setting product id and category id 
+	# as 1000 in case $productid or $categoryid
+	# is empty
+	local productid=${productid:-1000}
+	local categoryid=${categoryid:-1000}
+	log_status_and_exit ${productid} ${categoryid} ${_status} "${why}"
+}
+
+
+function handle_unknown_case() {
+	error "Testcase name not found"
+	log_status_int "FAIL", "Testcase name not found"
+}
+
+# Call to main function
+# Do not override it
+main

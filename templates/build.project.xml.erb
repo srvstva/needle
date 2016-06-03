@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project name="<%= @project%>" basedir=".">
   <description><%= @project.capitalize%> automation suite</description>
-  <!--Property definition here-->
+<!--Property definition here-->
   <property name="bash" value="/bin/bash"/>
   <property name="ns.wdir" value="/home/netstorm/work"/>
   <property name="lib.dir" value="${basedir}/lib"/>
@@ -13,23 +13,13 @@
   <property name="script.suite.runner" value="${basedir}/bin/suite_runner.sh"/>
   <property name="script.get.latest.file" value="${basedir}/bin/get_latest_file.rb"/>
   <property name="automation.mail.dir" value="${basedir}/include"/>
-    <!--skel-->
-  <!--End property definition-->
+<!--End property definition-->
  
-  <!--Target definition-->
-<!--New targets to come-->
+<!--Target definition-->
   <target name="default">
     <echo message="Running default target"/>
-    <!--Customize this part of the code
-    Add edit your own targets here-->
-    <!--
-      <ant description="Runs smoke automation suite"
-          antfile="smoke/build.xml" 
-          useNativeBasedir="true" 
-          target="default"
-      />
-    -->
   </target>
+
   <target name="get-build-info" description="Get release and build information">
     <exec executable="bash" outputproperty="release.info">
       <arg value="-c"/>
@@ -41,5 +31,5 @@
     </exec>
     <echo message="Current Build: R${release.info}.B${build.info}"/>
   </target>
-  <!--End target definition-->
+<!--End target definition-->
 </project>

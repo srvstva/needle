@@ -9,7 +9,7 @@ TEST_RUN_ID=$2
 LOGS_DIR=$HOME/workspace/logs
 [ ! -d $LOGS_DIR ] && mkdir -p $LOGS_DIR 
 
-LOG_FILE="$LOGS_DIR/nd_debug_trace.log"
+LOG_FILE="$LOGS_DIR/automation_debug_trace.log"
 DEBUG_LEVEL=1
 MAX_LOG_FILE_SIZE=$((100 * 1024)) #100KB Log size
 

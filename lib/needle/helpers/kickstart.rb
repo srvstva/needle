@@ -9,6 +9,13 @@ module Needle
 		end
 
 		def run
+			unless ant_available?
+				thor.say("Ant is not installed in system", :red)
+				thor.say("Automation needs ant to run. To install 'ant' run command")
+				thor.say("  # apt-get install ant")
+				thor.say("Or visit http://ant.apache.org/bindownload.cgi")
+				return
+			end
 			thor.say("Creating new automation project #{name} ...", :green)
 			thor.empty_directory(name)
 			apply_templates
@@ -61,5 +68,12 @@ module Needle
 				output.chomp!
 				return File.exist?(output)
 			end
+
+			private
+				def ant_available?
+					guess = `which ant`.chomp
+					return false if guess.empty?
+					return File.exist?(guess)
+				end
 	end
 end
