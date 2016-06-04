@@ -28,10 +28,15 @@ module Needle
 			)
 
 			thor.template(
-					"templates/project.properties.erb",
-					"#{name}/etc/#{name}.properties"
+				"templates/project.properties.erb",
+				"#{name}/etc/#{name}.properties"
 			)
-
+			thor.template(
+				"templates/include/mail.properties",
+				"#{name}/etc/mail/mail.properties"
+			)
+			thor.empty_directory("#{name}/etc/mail/.out")
+			
 			if File.exist?("build.xml")
 				thor.insert_into_file("build.xml", :before => "<!--End property definition-->\n") do
 					"  <property name=\"#{name}.ant.file\" value=\"${basedir}/#{name}/build.xml\"/>\n"				

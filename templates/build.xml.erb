@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="<%= @project_name%>" default="default">
+<project name="<%= @project_name%>" default="default" basedir=".">
   <description><%= @project_name.capitalize%> automation suite</description>
   <property name="<%= @project_name%>.project" value="automation"/>
   <property name="<%= @project_name%>.subproject" value="<%= @project_name%>"/>
@@ -8,6 +8,8 @@
   <property name="testsuites.dir" value="${ns.wdir}/testsuites/${<%= @project_name%>.project}/${<%= @project_name%>.subproject}"/> 
   <property name="testcases.dir" value="${ns.wdir}/testcases/${<%= @project_name%>.project}/${<%= @project_name%>.subproject}"/> 
 	<property name="topology.dir" value="${ns.wdir}/topology/default"/>
+	<property name="mail.dir" value="${basedir}/<%=@project_name%>/etc/mail"/>
+	<property name="mail.out.dir" value="${mail.dir}/.out"/>
 
 	<!--target definition-->
   <target name="clean">
@@ -113,8 +115,8 @@
 	</target>
 
 	<target name="gen-reports" depends="calc-start-time, calc-end-time, update-email-config">
-		<echo message="Loading properties from ${automation.mail.dir}/mail.properties"/>
-		<property file="${automation.mail.dir}/mail.properties"/>
+		<echo message="Loading properties from ${mail.dir}/mail.properties"/>
+		<property file="${mail.dir}/mail.properties"/>
 		<mail mailhost="${mail.host}"
 			mailport="${mail.port}"
 			user="${mail.user}"
@@ -123,7 +125,7 @@
 			cclist="${mail.cc.list}"
 			messageMimeType="text/html"
 			subject="[<%= @project_root.upcase%>] <%= @project_name.capitalize%> results for R${release.info}.B${build.info}"
-			messagefile="${automation.mail.dir}/<%=@project_name.downcase%>.mail.body.html">
+			messagefile="${mail.out.dir}/<%=@project_name.downcase%>.mail.body.html">
 			<from address="automation@cavisson.com"/>
 		</mail>
 	</target>
@@ -146,12 +148,12 @@
 			<arg value="-v"/>
 			<arg value="${build.info}"/>
 			<arg value="-o"/>
-			<arg value="${automation.mail.dir}/<%=@project_name.downcase%>.mail.body.html"/>
+			<arg value="${mail.out.dir}/<%=@project_name.downcase%>.mail.body.html"/>
 			<arg value="-s"/>
 			<arg value="${automation.start.time}"/>
 			<arg value="-e"/>
 			<arg value="${automation.end.time}"/>
 		</exec>
-		<echo message="HTML content written to ${automation.mail.dir}/<%=@project_name.downcase%>.mail.body.html"/>
+		<echo message="Generated HTML Report in ${mail.out.dir}/<%=@project_name.downcase%>.mail.body.html"/>
 	</target>
 </project>
