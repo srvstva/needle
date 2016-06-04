@@ -7,7 +7,6 @@ function run(){
     # Rotate previous trace log file
     resetTraceLog 
     suite=$1
-    echo "Total testcases to test: $(get_testcase_count $suite 'SMOKE')"
     cd $NS_WDIR
     $TS_RUN -n ${suite} | tee $TEMP_FILE 
 }

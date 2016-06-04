@@ -6,6 +6,7 @@ module Needle
 		def project(name)
 			require "needle/helpers/project"
 			@project_name = name
+			@project_root = File.basename(Dir.pwd)
 			Needle::Project.new(name, self).run
 		end
 

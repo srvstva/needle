@@ -25,9 +25,9 @@ MONITOR_LOG_FILE="${PARTITION_PATH}/monitor.log"
 # Add cases to handle your validation
 function main() {
 	case $(get_test_name) in
+# End case def
 		*) handle_unknown_case ;;
 		?) handle_unknown_case ;;
-# End case def
   esac
 }
 

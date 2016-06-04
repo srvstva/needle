@@ -44,6 +44,11 @@ module Needle
 					"templates/include",
 					"#{name}/include"
 				)
+				thor.template(
+					"templates/bin/generate_report.py", 
+					"#{name}/bin/generate_report.py",
+					:force => true
+				)
 				Dir.glob("#{name}/bin").each do |f| 
 					thor.chmod f, 0755
 				end
