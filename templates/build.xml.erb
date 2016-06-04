@@ -49,9 +49,6 @@
 			<fileset dir="${lib.dir}"/>
 			<fileset dir="etc"/>
 		</copy>
-		<copy todir="${instrprof.dir}">
-			<fileset dir="instrprof"/>
-		</copy>
 
 	<chmod perm="775">
 		<fileset dir="${testcases.dir}">
@@ -139,7 +136,7 @@
 			<arg value="*.txt"/>
 		</exec>
 		<echo message="Result file is: ${<%=@project_name%>.result.file}"/>
-		<exec executable="${nd.report.script}" failonerror="true">
+		<exec executable="${script.gen.report}" failonerror="true">
 			<arg value="-f"/>
 			<arg value="${<%=@project_name%>.result.file}"/>
 			<arg value="-c"/>

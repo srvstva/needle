@@ -85,6 +85,7 @@ function clear_logs() {
 }
 
 function resetTraceLog() {
+    [ ! -f ${LOG_FILE} ] && return
     local size
     size=$(stat -c %s ${LOG_FILE})
     if [ $size -gt ${MAX_LOG_FILE_SIZE} ]; then

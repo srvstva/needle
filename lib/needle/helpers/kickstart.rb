@@ -44,6 +44,9 @@ module Needle
 					"templates/include",
 					"#{name}/include"
 				)
+				Dir.glob("#{name}/bin").each do |f| 
+					thor.chmod f, 0755
+				end
 			end
 
 			def init_git
