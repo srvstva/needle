@@ -13,7 +13,7 @@ module Needle
 		def run
 			return unless File.exists?("testcases/#{testcase}/iteration.spec")
 			thor.insert_into_file("testcases/#{testcase}/iteration.spec", :before => "#END_ITERATION\n") do
-				"#{name}|10|ALL IMMEDIATELY|SESSIONS 10|ALL IMMEDIATELY|hpd_tours|127.0.0.1 192.168.255.2 -|1|ALL 2|ALL 1 0 2000|ALL 1|ALL ALL 3 10 50|ALL 1|ALL 0 0 0 0|default\n"
+				"#{name}|10|ALL IMMEDIATELY|SESSIONS 10|ALL IMMEDIATELY|hpd_tours|127.0.0.1 192.168.255.2 -|1|ALL 1|ALL 1 0 2000|ALL 1|ALL ALL 3 10 50|ALL 1|ALL 0 0 0 0|default\n"
 			end
 			funcname = name.tr("-", "_").downcase
 			thor.insert_into_file("testcases/#{testcase}/check_status", :before => "# End case def\n") do
