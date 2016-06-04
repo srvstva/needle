@@ -17,7 +17,16 @@ module Needle
 			["scripts", "scenarios", "topology", "mprof"].each do |dest|
 				thor.empty_directory("#{name}/#{dest}")
 			end
-		
+			thor.directory(
+				"templates/script/hpd_tours",
+				"#{name}/scripts/hpd_tours"
+			)
+
+			thor.directory(
+				"templates/topology/default",
+				"#{name}/topology/default"
+			)
+
 			thor.template(
 					"templates/project.properties.erb",
 					"#{name}/etc/#{name}.properties"
