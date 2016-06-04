@@ -20,7 +20,7 @@ def generate_htmlpage(start_time, end_time, category, release, version, tabledat
     page.table(style='width: 92% !important; border: 0px;') 
     page.tr() 
     page.td(width='30%', style='border: 0px!important; padding: 0px!important')
-    page.h2('Report for <%=@project.upcase%> Core: {}'.format(category.capitalize()), _class='lead')
+    page.h2('{} Test Report'.format(category.capitalize()), _class='lead')
     page.td.close() 
     page.td(width='70%', style='border: 0px!important; padding: 0px!important')
     page.table()
@@ -78,7 +78,7 @@ def generate_htmlpage(start_time, end_time, category, release, version, tabledat
     for i in range(3): page.br()   
     page.a(
         'Click to see online reports',
-        href='http://10.10.30.37/reports/graphs/NetDiagnostics/%s/%s/B%s' % (
+        href='http://10.10.30.37/reports/graphs/<%=@project.downcase%>/%s/%s/B%s' % (
             category.lower(), 
             release, 
             version
