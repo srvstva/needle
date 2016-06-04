@@ -48,7 +48,7 @@ function log_status_int() {
 
 function handle_unknown_case() {
 	error "Testcase name not found"
-	log_status_int "FAIL", "Testcase name not found"
+	log_status_int "FAIL" "Testcase name not found"
 }
 
 # Call to main function

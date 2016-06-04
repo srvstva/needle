@@ -26,7 +26,7 @@ module Needle
 # 1. Add logic to validate case #{name}
 # 2. Depending upon evaluation update the status with your own description
 function handle_#{funcname}_case() {
-	log_status_int "FAIL", "Testcase #{name} has yet not been implemented"
+	log_status_int "FAIL" "Testcase #{name} has yet not been implemented"
 }
 
 				EOC
