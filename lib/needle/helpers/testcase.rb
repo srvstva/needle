@@ -46,11 +46,18 @@ module Needle
 				)
 				# Replacing (hyphen) from testcase and adding to
 				# testsuite joining with _
-				suite_name = name.tr("-", "_").downcase
+				project_root = File.basename(Dir.pwd)
+				suite_name = project_root.tr("-", "_").downcase
 				suite_name = "#{suite_name}.conf"
-
-				thor.create_file("testsuites/#{suite_name}") do ||
-					"TEST_CASE_NAME #{name} Continue 1 1\n"
+			
+				if File.exists? "testsuites/#{suite_name}"
+					thor.append_to_file("testsuites/#{suite_name}") do ||
+						"TEST_CASE_NAME #{name} Continue 1 1\n"
+					end
+				else
+					thor.create_file("testsuites/#{suite_name}") do ||
+						"TEST_CASE_NAME #{name} Continue 1 1\n"
+					end
 				end
 			end
 	end
