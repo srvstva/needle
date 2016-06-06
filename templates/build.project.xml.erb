@@ -20,11 +20,13 @@
   </target>
 
   <target name="install-jars" description="Install ANT optional jars">
-        <mkdir dir="${user.home}/.ant/lib"/>
-        <get dest="${user.home}/.ant/lib/mail.jar"  
-             src="http://search.maven.org/remotecontent?filepath=javax/mail/mail/1.4.4/mail-1.4.4.jar"/>
-        <get dest="${user.home}/.ant/lib/activation.jar" 
-             src="http://search.maven.org/remotecontent?filepath=javax/activation/activation/1.1/activation-1.1.jar"/>
+    <mkdir dir="${user.home}/.ant/lib"/>
+    <get 
+      dest="${user.home}/.ant/lib/mail.jar" 
+      src="https://repo1.maven.org/maven2/javax/mail/mail/1.4.4/mail-1.4.4.jar"/>
+    <get 
+      dest="${user.home}/.ant/lib/activation.jar" 
+      src="https://repo1.maven.org/maven2/javax/activation/activation/1.1/activation-1.1.jar"/>
   </target>
 
   <target name="get-build-info" description="Get release and build information">
