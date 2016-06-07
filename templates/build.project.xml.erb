@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
-<project name="<%= @project%>" basedir=".">
-  <description><%= @project.capitalize%> automation suite</description>
+<project name="<%= config[:project]%>" basedir=".">
+  <description><%= config[:project].capitalize%> automation suite</description>
 <!--Property definition here-->
   <property name="bash" value="/bin/bash"/>
   <property name="ns.wdir" value="/home/netstorm/work"/>
   <property name="lib.dir" value="${basedir}/lib"/>
   <property name="include.dir" value="${basedir}/include"/>  
   <property name="results.dir" value="/home/<%=(ENV['USER'])%>/workspace/results"/>
-  <property name="project.name" value="<%= @project%>"/> 
+  <property name="project.name" value="<%= config[:project]%>"/> 
   <property name="script.gen.report" value="${basedir}/bin/generate_report.py"/>
   <property name="script.db.upload" value="${basedir}/bin/suite_db_uploader.py"/>
   <property name="script.suite.runner" value="${basedir}/bin/suite_runner.sh"/>

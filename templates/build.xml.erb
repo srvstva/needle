@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
-<project name="<%= @project_name%>" default="default" basedir=".">
-  <description><%= @project_name.capitalize%> automation suite</description>
-  <property name="<%= @project_name%>.project" value="automation"/>
-  <property name="<%= @project_name%>.subproject" value="<%= @project_name%>"/>
-	<property name="scripts.dir" value="${ns.wdir}/scripts/${<%= @project_name%>.project}/${<%= @project_name%>.subproject}"/> 
-  <property name="scenarios.dir" value="${ns.wdir}/scenarios/${<%= @project_name%>.project}/${<%= @project_name%>.subproject}"/> 
-  <property name="testsuites.dir" value="${ns.wdir}/testsuites/${<%= @project_name%>.project}/${<%= @project_name%>.subproject}"/> 
-  <property name="testcases.dir" value="${ns.wdir}/testcases/${<%= @project_name%>.project}/${<%= @project_name%>.subproject}"/> 
+<project name="<%= config[:project]%>" default="default" basedir=".">
+  <description><%= config[:project].capitalize%> automation suite</description>
+  <property name="<%= config[:project]%>.project" value="automation"/>
+  <property name="<%= config[:project]%>.subproject" value="<%= config[:project]%>"/>
+	<property name="scripts.dir" value="${ns.wdir}/scripts/${<%= config[:project]%>.project}/${<%= config[:project]%>.subproject}"/> 
+  <property name="scenarios.dir" value="${ns.wdir}/scenarios/${<%= config[:project]%>.project}/${<%= config[:project]%>.subproject}"/> 
+  <property name="testsuites.dir" value="${ns.wdir}/testsuites/${<%= config[:project]%>.project}/${<%= config[:project]%>.subproject}"/> 
+  <property name="testcases.dir" value="${ns.wdir}/testcases/${<%= config[:project]%>.project}/${<%= config[:project]%>.subproject}"/> 
 	<property name="topology.dir" value="${ns.wdir}/topology/default"/>
 	<property name="mail.dir" value="${basedir}/etc/mail"/>
 	<property name="mail.out.dir" value="${mail.dir}/.out"/>
@@ -90,14 +90,14 @@
     <echo message="Running default target"/>
   </target>
 
-	<target name="run-<%= @project_name%>" depends="clean, copy-workbench-files, calc-start-time">
+	<target name="run-<%= config[:project]%>" depends="clean, copy-workbench-files, calc-start-time">
 		<echo message="Running ..."/>
 		<exec executable="${bash}" failonerror="false">
 			<arg value="${script.suite.runner}"/>
-			<arg value="${<%= @project_name%>.project}/${<%= @project_name%>.subproject}/<%= @project_name%>"/>
+			<arg value="${<%= config[:project]%>.project}/${<%= config[:project]%>.subproject}/<%= config[:project]%>"/>
 		</exec>
 	</target>
-	<target name="<%= @project_name%>" depends="run-<%= @project_name%>, gen-reports"/>
+	<target name="<%= config[:project]%>" depends="run-<%= config[:project]%>, gen-reports"/>
 	<target name="calc-start-time">
 		<exec executable="${bash}" outputproperty="automation.start.time">
 			<arg value="-c"/>
@@ -124,36 +124,36 @@
 			tolist="${mail.to.list}"
 			cclist="${mail.cc.list}"
 			messageMimeType="text/html"
-			subject="[<%= @project_root.upcase%>] <%= @project_name.capitalize%> results for R${release.info}.B${build.info}"
-			messagefile="${mail.out.dir}/<%=@project_name.downcase%>.mail.body.html">
+			subject="[<%= config[:project].upcase%>] <%= config[:project].capitalize%> results for R${release.info}.B${build.info}"
+			messagefile="${mail.out.dir}/<%=config[:project].downcase%>.mail.body.html">
 			<from address="automation@cavisson.com"/>
 		</mail>
 	</target>
 	<target name="update-email-config" description="Updates email configurations post test">
 		<sleep seconds="1"/>
-		<exec executable="${script.get.latest.file}" outputproperty="<%=@project_name%>.result.file" failonerror="true">
+		<exec executable="${script.get.latest.file}" outputproperty="<%=config[:project]%>.result.file" failonerror="true">
 			<arg value="-d"/>
 			<arg value="${results.dir}/${release.info}/${build.info}"/>
 			<arg value="-p"/>
 			<arg value="*.txt"/>
 		</exec>
-		<echo message="Result file is: ${<%=@project_name%>.result.file}"/>
+		<echo message="Result file is: ${<%=config[:project]%>.result.file}"/>
 		<exec executable="${script.gen.report}" failonerror="true">
 			<arg value="-f"/>
-			<arg value="${<%=@project_name%>.result.file}"/>
+			<arg value="${<%=config[:project]%>.result.file}"/>
 			<arg value="-c"/>
-			<arg value="<%=@project_name.capitalize%>"/>
+			<arg value="<%=config[:project].capitalize%>"/>
 			<arg value="-r"/>
 			<arg value="${release.info}"/>
 			<arg value="-v"/>
 			<arg value="${build.info}"/>
 			<arg value="-o"/>
-			<arg value="${mail.out.dir}/<%=@project_name.downcase%>.mail.body.html"/>
+			<arg value="${mail.out.dir}/<%=config[:project].downcase%>.mail.body.html"/>
 			<arg value="-s"/>
 			<arg value="${automation.start.time}"/>
 			<arg value="-e"/>
 			<arg value="${automation.end.time}"/>
 		</exec>
-		<echo message="Generated HTML Report in ${mail.out.dir}/<%=@project_name.downcase%>.mail.body.html"/>
+		<echo message="Generated HTML Report in ${mail.out.dir}/<%=config[:project].downcase%>.mail.body.html"/>
 	</target>
 </project>

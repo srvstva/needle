@@ -78,7 +78,7 @@ def generate_htmlpage(start_time, end_time, category, release, version, tabledat
     for i in range(3): page.br()   
     page.a(
         'Click to see online reports',
-        href='http://10.10.30.37/reports/graphs/<%=@project.downcase%>/%s/%s/B%s' % (
+        href='http://10.10.30.37/reports/graphs/<%=config[:project].downcase%>/%s/%s/B%s' % (
             category.lower(), 
             release, 
             version
