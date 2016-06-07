@@ -3,15 +3,15 @@
   <description><%= config[:project].capitalize%> automation suite</description>
   <property name="<%= config[:project]%>.project" value="automation"/>
   <property name="<%= config[:project]%>.subproject" value="<%= config[:project]%>"/>
-	<property name="scripts.dir" value="${ns.wdir}/scripts/${<%= config[:project]%>.project}/${<%= config[:project]%>.subproject}"/> 
+  <property name="scripts.dir" value="${ns.wdir}/scripts/${<%= config[:project]%>.project}/${<%= config[:project]%>.subproject}"/> 
   <property name="scenarios.dir" value="${ns.wdir}/scenarios/${<%= config[:project]%>.project}/${<%= config[:project]%>.subproject}"/> 
   <property name="testsuites.dir" value="${ns.wdir}/testsuites/${<%= config[:project]%>.project}/${<%= config[:project]%>.subproject}"/> 
   <property name="testcases.dir" value="${ns.wdir}/testcases/${<%= config[:project]%>.project}/${<%= config[:project]%>.subproject}"/> 
-	<property name="topology.dir" value="${ns.wdir}/topology/default"/>
-	<property name="mail.dir" value="${basedir}/etc/mail"/>
-	<property name="mail.out.dir" value="${mail.dir}/.out"/>
+  <property name="topology.dir" value="${ns.wdir}/topology/default"/>
+  <property name="mail.dir" value="${basedir}/etc/mail"/>
+  <property name="mail.out.dir" value="${mail.dir}/.out"/>
 
-	<!--target definition-->
+  <!--target definition-->
   <target name="clean">
     <delete dir="${scripts.dir}"/>
     <delete dir="${scenarios.dir}"/>
@@ -21,61 +21,61 @@
     <delete dir="${ns.wdir}/lib"/>
   </target>
 
-	<target name="create-workbench">
-		<mkdir dir="${scripts.dir}"/>
-		<mkdir dir="${scenarios.dir}"/>
-		<mkdir dir="${topology.dir}"/>
-		<mkdir dir="${testsuites.dir}"/>
-		<mkdir dir="${testcases.dir}"/>
-		<mkdir dir="${ns.wdir}/lib"/>
-	</target>
+  <target name="create-workbench">
+    <mkdir dir="${scripts.dir}"/>
+    <mkdir dir="${scenarios.dir}"/>
+    <mkdir dir="${topology.dir}"/>
+    <mkdir dir="${testsuites.dir}"/>
+    <mkdir dir="${testcases.dir}"/>
+    <mkdir dir="${ns.wdir}/lib"/>
+  </target>
 
 
-	<target name="copy-workbench-files" depends="create-workbench">
-		<copy todir="${scripts.dir}">
-   		<fileset dir="scripts"/>
-   	</copy>
-		<copy todir="${scenarios.dir}">
-			<fileset dir="scenarios"/>
-		</copy>
-		<copy todir="${topology.dir}">
-			<fileset dir="topology/default"/>
-		</copy>
-		<copy todir="${testsuites.dir}">
-			<fileset dir="testsuites"/>
-		</copy>
-		<copy todir="${testcases.dir}">
-			<fileset dir="testcases"/>
-		</copy>
-		<copy todir="${ns.wdir}/lib">
-			<fileset dir="${lib.dir}"/>
-			<fileset dir="etc"/>
-		</copy>
+  <target name="copy-workbench-files" depends="create-workbench">
+    <copy todir="${scripts.dir}">
+      <fileset dir="scripts"/>
+    </copy>
+    <copy todir="${scenarios.dir}">
+      <fileset dir="scenarios"/>
+    </copy>
+    <copy todir="${topology.dir}">
+      <fileset dir="topology/default"/>
+    </copy>
+    <copy todir="${testsuites.dir}">
+      <fileset dir="testsuites"/>
+    </copy>
+    <copy todir="${testcases.dir}">
+      <fileset dir="testcases"/>
+    </copy>
+    <copy todir="${ns.wdir}/lib">
+      <fileset dir="${lib.dir}"/>
+      <fileset dir="etc"/>
+    </copy>
 
-	<chmod perm="775">
-		<fileset dir="${testcases.dir}">
-		  <include name="**/*_test_*"/>
-		  <include name="**/check_status"/>
-		</fileset>
-		<dirset dir="${scripts.dir}">
-		  <include name="**/*"/>
-		</dirset>
-		<dirset dir="${scenarios.dir}">
-		  <include name="**/*"/>
-		</dirset>
-		<dirset dir="${testcases.dir}">
-		  <include name="**/*"/>
-		</dirset>
-		<dirset dir="${testsuites.dir}">
-		  <include name="**/*"/>
-		</dirset>
-		<dirset dir="${topology.dir}">
-		  <include name="**/*"/>
-		</dirset>
-		<dirset dir="${ns.wdir}/lib">
-		  <include name="**/*"/>
-		</dirset>
-	</chmod>
+  <chmod perm="775">
+    <fileset dir="${testcases.dir}">
+      <include name="**/*_test_*"/>
+      <include name="**/check_status"/>
+    </fileset>
+    <dirset dir="${scripts.dir}">
+      <include name="**/*"/>
+    </dirset>
+    <dirset dir="${scenarios.dir}">
+      <include name="**/*"/>
+    </dirset>
+    <dirset dir="${testcases.dir}">
+      <include name="**/*"/>
+    </dirset>
+    <dirset dir="${testsuites.dir}">
+      <include name="**/*"/>
+    </dirset>
+    <dirset dir="${topology.dir}">
+      <include name="**/*"/>
+    </dirset>
+    <dirset dir="${ns.wdir}/lib">
+      <include name="**/*"/>
+    </dirset>
+  </chmod>
 
    <chmod file="${scripts.dir}" perm="775" type="both"/>
    <chmod file="${scenarios.dir}" perm="775" type="both"/>
@@ -90,70 +90,70 @@
     <echo message="Running default target"/>
   </target>
 
-	<target name="run-<%= config[:project]%>" depends="clean, copy-workbench-files, calc-start-time">
-		<echo message="Running ..."/>
-		<exec executable="${bash}" failonerror="false">
-			<arg value="${script.suite.runner}"/>
-			<arg value="${<%= config[:project]%>.project}/${<%= config[:project]%>.subproject}/<%= config[:project]%>"/>
-		</exec>
-	</target>
-	<target name="<%= config[:project]%>" depends="run-<%= config[:project]%>, gen-reports"/>
-	<target name="calc-start-time">
-		<exec executable="${bash}" outputproperty="automation.start.time">
-			<arg value="-c"/>
-			<arg value="date +'%D %r'"/>
-		</exec>
-	<echo message="Test started at: ${automation.start.time}"/>
-	</target>
+  <target name="run-<%= config[:project]%>" depends="clean, copy-workbench-files, calc-start-time">
+    <echo message="Running ..."/>
+    <exec executable="${bash}" failonerror="false">
+      <arg value="${script.suite.runner}"/>
+      <arg value="${<%= config[:project]%>.project}/${<%= config[:project]%>.subproject}/<%= config[:project]%>"/>
+    </exec>
+  </target>
+  <target name="<%= config[:project]%>" depends="run-<%= config[:project]%>, gen-reports"/>
+  <target name="calc-start-time">
+    <exec executable="${bash}" outputproperty="automation.start.time">
+      <arg value="-c"/>
+      <arg value="date +'%D %r'"/>
+    </exec>
+  <echo message="Test started at: ${automation.start.time}"/>
+  </target>
 
-	<target name="calc-end-time">
-		<exec executable="${bash}" outputproperty="automation.end.time">
-			<arg value="-c"/>
-			<arg value="date +'%D %r'"/>
-		</exec>
-		<echo message="Test ended at: ${automation.end.time}"/>
-	</target>
+  <target name="calc-end-time">
+    <exec executable="${bash}" outputproperty="automation.end.time">
+      <arg value="-c"/>
+      <arg value="date +'%D %r'"/>
+    </exec>
+    <echo message="Test ended at: ${automation.end.time}"/>
+  </target>
 
-	<target name="gen-reports" depends="calc-start-time, calc-end-time, update-email-config">
-		<echo message="Loading properties from ${mail.dir}/mail.properties"/>
-		<property file="${mail.dir}/mail.properties"/>
-		<mail mailhost="${mail.host}"
-			mailport="${mail.port}"
-			user="${mail.user}"
-			password="${mail.password}"
-			tolist="${mail.to.list}"
-			cclist="${mail.cc.list}"
-			messageMimeType="text/html"
-			subject="[<%= config[:project].upcase%>] <%= config[:project].capitalize%> results for R${release.info}.B${build.info}"
-			messagefile="${mail.out.dir}/<%=config[:project].downcase%>.mail.body.html">
-			<from address="automation@cavisson.com"/>
-		</mail>
-	</target>
-	<target name="update-email-config" description="Updates email configurations post test">
-		<sleep seconds="1"/>
-		<exec executable="${script.get.latest.file}" outputproperty="<%=config[:project]%>.result.file" failonerror="true">
-			<arg value="-d"/>
-			<arg value="${results.dir}/${release.info}/${build.info}"/>
-			<arg value="-p"/>
-			<arg value="*.txt"/>
-		</exec>
-		<echo message="Result file is: ${<%=config[:project]%>.result.file}"/>
-		<exec executable="${script.gen.report}" failonerror="true">
-			<arg value="-f"/>
-			<arg value="${<%=config[:project]%>.result.file}"/>
-			<arg value="-c"/>
-			<arg value="<%=config[:project].capitalize%>"/>
-			<arg value="-r"/>
-			<arg value="${release.info}"/>
-			<arg value="-v"/>
-			<arg value="${build.info}"/>
-			<arg value="-o"/>
-			<arg value="${mail.out.dir}/<%=config[:project].downcase%>.mail.body.html"/>
-			<arg value="-s"/>
-			<arg value="${automation.start.time}"/>
-			<arg value="-e"/>
-			<arg value="${automation.end.time}"/>
-		</exec>
-		<echo message="Generated HTML Report in ${mail.out.dir}/<%=config[:project].downcase%>.mail.body.html"/>
-	</target>
+  <target name="gen-reports" depends="calc-start-time, calc-end-time, update-email-config">
+    <echo message="Loading properties from ${mail.dir}/mail.properties"/>
+    <property file="${mail.dir}/mail.properties"/>
+    <mail mailhost="${mail.host}"
+      mailport="${mail.port}"
+      user="${mail.user}"
+      password="${mail.password}"
+      tolist="${mail.to.list}"
+      cclist="${mail.cc.list}"
+      messageMimeType="text/html"
+      subject="[<%= config[:base].upcase%>] <%= config[:project].capitalize%> results for R${release.info}.B${build.info}"
+      messagefile="${mail.out.dir}/<%=config[:project].downcase%>.mail.body.html">
+      <from address="automation@cavisson.com"/>
+    </mail>
+  </target>
+  <target name="update-email-config" description="Updates email configurations post test">
+    <sleep seconds="1"/>
+    <exec executable="${script.get.latest.file}" outputproperty="<%=config[:project]%>.result.file" failonerror="true">
+      <arg value="-d"/>
+      <arg value="${results.dir}/${release.info}/${build.info}"/>
+      <arg value="-p"/>
+      <arg value="*.txt"/>
+    </exec>
+    <echo message="Result file is: ${<%=config[:project]%>.result.file}"/>
+    <exec executable="${script.gen.report}" failonerror="true">
+      <arg value="-f"/>
+      <arg value="${<%=config[:project]%>.result.file}"/>
+      <arg value="-c"/>
+      <arg value="<%=config[:project].capitalize%>"/>
+      <arg value="-r"/>
+      <arg value="${release.info}"/>
+      <arg value="-v"/>
+      <arg value="${build.info}"/>
+      <arg value="-o"/>
+      <arg value="${mail.out.dir}/<%=config[:project].downcase%>.mail.body.html"/>
+      <arg value="-s"/>
+      <arg value="${automation.start.time}"/>
+      <arg value="-e"/>
+      <arg value="${automation.end.time}"/>
+    </exec>
+    <echo message="Generated HTML Report in ${mail.out.dir}/<%=config[:project].downcase%>.mail.body.html"/>
+  </target>
 </project>
