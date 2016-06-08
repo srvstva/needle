@@ -10,7 +10,7 @@
 
 # Source out required files
 source $NS_WDIR/lib/utilities.sh
-source $NS_WDIR/lib/helpers.
+source $NS_WDIR/lib/helpers.sh
 source $NS_WDIR/lib/<%=config[:project]%>.properties
 
 # Default Constants
