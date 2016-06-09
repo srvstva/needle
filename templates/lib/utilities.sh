@@ -13,8 +13,8 @@ LOG_FILE="$LOGS_DIR/automation_debug_trace.log"
 DEBUG_LEVEL=1
 MAX_LOG_FILE_SIZE=$((100 * 1024)) #100KB Log size
 
-function get_cycle_no(){
-    CYCLE_NO=$(grep "Test Cycle Number =" $TEMP_RUN_FILE|awk -F "=" {print $1}|sed 's/^ //')
+function get_suite_no(){
+    CYCLE_NO=$(grep "Test Cycle Number =" $TEMP_FILE|awk -F "=" '{print $2}'|sed 's/^ //')
     echo $CYCLE_NO
 }
 
@@ -42,6 +42,15 @@ function get_test_name() {
         testname=$(grep "TNAME" ${scenario_file}| awk '{print $2}')
     fi
     echo ${testname}
+}
+
+
+# To read testconsole data we need testcase id 
+# Usage : get_testcase_name SmokeTest_API_1_1
+function get_iteration_name(){ 
+    TS_LOG_DIR_1="${NS_WDIR}/logs/tsr/$(get_suite_no)/${TEST_SUITE_ID}/logs"
+    cases=(`ls -tr ${TS_LOG_DIR}/`)
+    echo "${cases[-1]}"
 }
 
 

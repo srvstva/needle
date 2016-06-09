@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import bs4
 import markup
 import argparse
 
@@ -90,7 +89,7 @@ def generate_htmlpage(start_time, end_time, category, release, version, tabledat
     page.div('Automation Team <br/>Cavisson Systems Inc.', _class='signature') 
     page.div.close()  
     page.style(minified_css) 
-    htmlpage = bs4.BeautifulSoup(str(page), "html.parser").prettify()
+    htmlpage = str(page)
     return htmlpage
 
 

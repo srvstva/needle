@@ -19,11 +19,14 @@ function bootstrap(){
         echo "Creating $RESULTS_DIR"
         mkdir -p $RESULTS_DIR
     fi
+    
     BASE_RESULT_FILE="result.$(get_cycleno)"
     R_FILE="${RESULTS_DIR}/${BASE_RESULT_FILE}.txt"
     XML_FILE="${RESULTS_DIR}/${BASE_RESULT_FILE}.xml"
     CURRENT_RESULT_FILE="$RESULTS_DIR/.current"
+    
     export R_FILE
+    export TEMP_FILE
 }
 
 function post_process(){
